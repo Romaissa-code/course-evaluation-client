@@ -24,6 +24,7 @@ import {
   Button,
   Box,
   CssBaseline,
+  Grid
 } from "@mui/material";
 
 const questions = [
@@ -113,11 +114,13 @@ function App() {
       console.log(formdata);
       setErr(false);
       Axios.post(
-        "https://course-evaluation-server-production-3a88.up.railway.app/api/insert",
+        "https://course-evaluation-server-production-02ca.up.railway.app/api/insert",
         {
           formdata,
         }
-      );
+      ).then((re) => {
+        console.log(re);
+      });
     } else {
       console.log("misssed filed");
       setErr(true);
@@ -129,61 +132,65 @@ function App() {
       <CssBaseline />
       <div className="App">
         <Container maxWidth="md">
-          <Paper elevation={8} sx={{ padding: "30px" }}>
+          <Paper elevation={8} sx={{ padding: "40px 30px" }}>
             <Typography variant="h4">Course Evaluation Form</Typography>
-            <Box
-              sx={{
-                margin: "20px 0",
-                display: "flex",
-                justifyContent: "space-between",
-              }}
-            >
-              <Autocomplete
-                disablePortal
-                id="combo-box-demo"
-                options={instructors}
-                sx={{ width: 350 }}
-                onChange={(event, value) => {
-                  formdata["instructor_name"] = value;
-                }}
-                renderInput={(params) => (
-                  <TextField {...params} label="Instructor Name" />
-                )}
-              />
-              <Autocomplete
-                disablePortal
-                id="combo-box-demo"
-                options={modules}
-                onChange={(event, value) => {
-                  formdata["module"] = value;
-                }}
-                sx={{ width: 350 }}
-                renderInput={(params) => (
-                  <TextField {...params} label="Course Name" required />
-                )}
-              />
-            </Box>
+
+            <Grid container spacing={2} sx={{marginTop:"20px"}}>
+              <Grid item xs={12} md={6}>
+                <Autocomplete
+                  disablePortal
+                  id="combo-box-demo"
+                  options={instructors}
+                  fullWidth
+                  onChange={(event, value) => {
+                    formdata["instructor_name"] = value;
+                  }}
+                  renderInput={(params) => (
+                    <TextField {...params} label="Instructor Name" />
+                  )}
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Autocomplete
+                  disablePortal
+                  id="combo-box-demo"
+                  options={modules}
+                  onChange={(event, value) => {
+                    formdata["module"] = value;
+                  }}
+                  fullWidth
+                  renderInput={(params) => (
+                    <TextField {...params} label="Course Name" required />
+                  )}
+                />
+              </Grid>
+            </Grid>
+
             <Box sx={{ margin: "20px 0px" }}>
               <Typography variant="h6" sx={{ margin: "20px 0" }}>
                 Please evaluate honestly
               </Typography>
               <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                
+                <Table sx={{ minWidth: 650,tableLayout: 'fixed'}}  aria-label="simple table">
                   <TableHead></TableHead>
                   <TableBody>
                     {questions.map((question, index) => (
                       <TableRow
                         key={index}
                         sx={{
-                          "&:last-child td, &:last-child th": { border: 0 },
+                          "&:last-child td, &:last-child th": { border: 0 }
                         }}
                       >
                         <TableCell
                           component="th"
                           scope="row"
-                          sx={{ fontSize: "14px", padding: "10px" }}
+                          sx={{ fontSize: "14px", padding: "10px"}}
                         >
-                          {question}
+                        
+                       {question} 
+                        
+                
                         </TableCell>
 
                         <TableCell align="right" sx={{ padding: "10px" }}>
