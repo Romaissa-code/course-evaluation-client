@@ -24,7 +24,7 @@ import {
   Button,
   Box,
   CssBaseline,
-  Grid
+  Grid,
 } from "@mui/material";
 
 const questions = [
@@ -43,7 +43,7 @@ const questions = [
   "Grading techniques were",
 ];
 const instructors = ["Dr. NAMANE R"];
-const modules = ["EE121 Algorithmic [FALL 2022]"];
+const modules = ["EE426 Operating Systems [FALL 2023]"];
 
 function App() {
   const initialData = {
@@ -70,6 +70,7 @@ function App() {
   const [formdata, setFormData] = React.useState(initialData);
   const [err, setErr] = React.useState(false);
   const [clicked, setClicked] = React.useState(false);
+  const date = new Date();
   const clickhandler = () => {
     setClicked(true);
     const {
@@ -90,7 +91,6 @@ function App() {
       an13,
       student_effort,
       student_work,
- 
     } = formdata;
     if (
       instructor_name &&
@@ -113,12 +113,9 @@ function App() {
     ) {
       console.log(formdata);
       setErr(false);
-      Axios.post(
-        "https://course-evaluation-server-production-02ca.up.railway.app/api/insert",
-        {
-          formdata,
-        }
-      ).then((re) => {
+      Axios.post("http://localhost:3001/api/insert", {
+        formdata,
+      }).then((re) => {
         console.log(re);
       });
     } else {
@@ -135,7 +132,7 @@ function App() {
           <Paper elevation={8} sx={{ padding: "40px 30px" }}>
             <Typography variant="h4">Course Evaluation Form</Typography>
 
-            <Grid container spacing={2} sx={{marginTop:"20px"}}>
+            <Grid container spacing={2} sx={{ marginTop: "20px" }}>
               <Grid item xs={12} md={6}>
                 <Autocomplete
                   disablePortal
@@ -171,26 +168,25 @@ function App() {
                 Please evaluate honestly
               </Typography>
               <TableContainer component={Paper}>
-                
-                <Table sx={{ minWidth: 650,tableLayout: 'fixed'}}  aria-label="simple table">
+                <Table
+                  sx={{ minWidth: 650, tableLayout: "fixed" }}
+                  aria-label="simple table"
+                >
                   <TableHead></TableHead>
                   <TableBody>
                     {questions.map((question, index) => (
                       <TableRow
                         key={index}
                         sx={{
-                          "&:last-child td, &:last-child th": { border: 0 }
+                          "&:last-child td, &:last-child th": { border: 0 },
                         }}
                       >
                         <TableCell
                           component="th"
                           scope="row"
-                          sx={{ fontSize: "14px", padding: "10px"}}
+                          sx={{ fontSize: "14px", padding: "10px" }}
                         >
-                        
-                       {question} 
-                        
-                
+                          {question}
                         </TableCell>
 
                         <TableCell align="right" sx={{ padding: "10px" }}>
@@ -301,7 +297,8 @@ function App() {
             </Box>
             <Box sx={{ margin: "10px 0" }}>
               <Typography variant="h6">
-                Is there any other feedback you'd like to give on this class?
+                Is there any other feedback you'd like to give on this class
+                including labs?
               </Typography>
               <TextareaAutosize
                 aria-label="empty textarea"
@@ -332,7 +329,7 @@ function App() {
         <footer className="footer">
           <Typography variant="subtitle2">
             <AutoAwesomeIcon sx={{ fontSize: "14px" }} /> Created by R.Bakhouche
-            2023
+            <span style={{ marginLeft: "5px" }}>{date.getFullYear()}</span>
           </Typography>
         </footer>
       </div>
